@@ -2,6 +2,8 @@ const User = require("../models/User")
 const OTP = require("../models/OTP")
 const otpGenerator = require("otp-generator")
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 
 //Send OTP function
 exports.sendOTP = async(req, res) => {
@@ -167,3 +169,79 @@ exports.signUp = async(req, res) => {
 }
 
 //login function
+exports.login = async(req, res) => {
+
+    try{
+        //get data from req body
+        const {email, password} = req.body
+
+        //validation of data
+        if(!email || !password){
+            return res.status(403).json({
+                success: false,
+                message: "All fields are required, please try again"
+            })
+        }
+
+        //check if user exist or not
+        //By populating we get access to all details fo a user
+        const user = await User.findOne({email}).populate("additionalDetails")
+        if(!user){
+            //user not found
+            return res.status(401).json({
+                success: false,
+                message: "User is not registered, please signup first"
+            })
+        }
+
+        //generate JWT, after password matching
+        //compare function matches the 2 passwords
+        //password -> from req body i.e user input
+        //user.password -> password saved in user database
+        //these 2 are required to compare and check if passwords are matching or not
+        if(await bcrypt.compare(password, user.password)){
+            const payload = {
+                email: user.email,
+                id: user._id,
+                role: user.accountType,
+            }
+
+            const token = jwt.sign(payload, process.env.JWT_SECRET, {
+                expiresIn: "2h"
+            })
+
+            user.token = token
+            user.password = undefined
+
+            //create cookie and send response
+            const options = {
+                expires: new Date(Date.now() + 3*24*60*60*1000),
+                httpOnly: true,
+            }
+
+            res.cookie("token", token, options).status(200).json({
+                success: true,
+                token,
+                user,
+                message: "Logged in successfully",
+            })
+        }
+        else{
+            //password not matched
+            return res.status(401).json({
+                success: false,
+                message: "Password is incorrect",
+            })
+        }
+    }
+    catch(error){
+        console.log(error)
+        return res.status(500).json({
+            success: false,
+            message: "Login failure, please try again"
+        })
+    }
+}
+
+//change password function
+ 
