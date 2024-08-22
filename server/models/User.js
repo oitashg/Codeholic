@@ -40,6 +40,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    //This is added later, so that each user model has its own token and expiry time
+    //by which every user gets a unique and different frontend link to reset password 
+    token: {
+        type: String,
+    },
+    resetPasswordExpires: {
+        type: Date,
+    },
+    //------------------------------------------------------------------------------
     courseProgress: [
         {
             type: mongoose.Schema.Types.ObjectId,
