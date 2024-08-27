@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const mailSender = require("../utils/mailSender")
+const emailTemplate = require("../mail/templates/emailVerificationTemplate")
 
 const OTPSchema = new mongoose.Schema({
     email: {
@@ -13,14 +14,14 @@ const OTPSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now(),
-        expires: 5*60,
+        expires: 5*60, // The document will be automatically deleted after 5 minutes of its creation time
     }
 })
 
 // function to send otp to email as a purpose of verification
 async function sendVerificationEmail(email, otp) {
     try{
-        const mailResponse = await mailSender(email, "Verification Email from Codeholic", otp)
+        const mailResponse = await mailSender(email, "Verification Email from Codeholic", emailTemplate(otp))
         console.log("Email sent successfully: ", mailResponse)
     }
     catch(error){
@@ -31,7 +32,13 @@ async function sendVerificationEmail(email, otp) {
 
 //pre middleware...send verification email just before saving the document
 OTPSchema.pre("save", async function(next) {
-    await sendVerificationEmail(this.email, this.otp)
+    console.log("New document saved to database")
+    
+    //Only send an email when a new document is created
+    if(this.isNew){
+        await sendVerificationEmail(this.email, this.otp)
+    }
+
     next()
 })
 
