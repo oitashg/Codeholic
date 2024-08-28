@@ -81,7 +81,8 @@ exports.resetPassword = async (req, res) => {
         
         //get user deails from database using token
 		const userDetails = await User.findOne({ token: token });
-
+        console.log("User details -> ", userDetails)
+        
         //if no entry--> invalid token
 		if (!userDetails) {
 			return res.json({
@@ -91,7 +92,7 @@ exports.resetPassword = async (req, res) => {
 		}
 
         //if time span of token expires
-		if (!(userDetails.resetPasswordExpires < Date.now())) {
+		if (!(userDetails.resetPasswordExpires > Date.now())) {
 			return res.json({
 				success: false,
 				message: `Token is Expired, Please Regenerate Your Token`,

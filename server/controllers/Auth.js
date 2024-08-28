@@ -28,7 +28,7 @@ exports.sendOTP = async(req, res) => {
 
         //generate otp
         var otp = otpGenerator.generate(6, {
-            upperCaseAlphabets: fasle,
+            upperCaseAlphabets: false,
             lowerCaseAlphabets: false,
             specialChars: false,
         })
@@ -64,7 +64,7 @@ exports.sendOTP = async(req, res) => {
     }
     catch(error){
         console.log(error)
-        return res.staus(500).json({
+        return res.status(500).json({
             success: false,
             message: error.message
         })
@@ -114,7 +114,7 @@ exports.signUp = async(req, res) => {
 
         //find most recent OTP stored for the user
         const recentOtp = await OTP.find({email}).sort({createdAt: -1}).limit(1)
-        console.log(recentOtp)
+        console.log("Printing the recent otp -> ", recentOtp)
 
         // recentOtp -> OTP collected from database
         // otp -> the one that the user has given input while fulling the form
@@ -127,7 +127,7 @@ exports.signUp = async(req, res) => {
                 message: "OTP not found",
             })
         }
-        else if(otp !== recentOtp.otp){
+        else if(otp !== recentOtp[0].otp){
             //Typed the wrong OTP
             return res.status(400).json({
                 success: false,
