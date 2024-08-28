@@ -165,7 +165,7 @@ exports.editCourse = async (req, res) => {
 }
 
 //showAllCourses handler function
-exports.showAllCourses = async(req, res) => {
+exports.getAllCourses = async(req, res) => {
 
     try{
         const allCourses = await Course.find({}, {courseName: true,
