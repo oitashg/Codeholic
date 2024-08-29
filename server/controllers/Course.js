@@ -12,22 +12,55 @@ exports.createCourse = async(req, res) => {
 
     try{
         //fetch data
-        const {courseName, courseDescription, whatYouWillLearn, price, tag} = req.body
+        //use "let" here...as if const used, we cannot reassign any new value to these variables
+        //But here, status need to be reassigned, so let is used
+        let {
+          courseName, 
+          courseDescription, 
+          whatYouWillLearn, 
+          price, 
+          tag: _tag,
+          category,
+          status,
+          instructions: _instructions,
+        } = req.body
 
         //get thumbnail
         const thumbnail = req.files.thumbnailImage
+        
+        //Convert the tag and instructions from stringified Array to Array
+        const tag = JSON.parse(_tag)
+        const instructions = JSON.parse(_instructions)
+
+        console.log("tag", tag)
+        console.log("instructions", instructions)
 
         //validation
-        if(!courseName || !courseDescription || !whatYouWillLearn || !price || !tag || !thumbnail){
+        if(
+          !courseName || 
+          !courseDescription || 
+          !whatYouWillLearn || 
+          !price || 
+          !tag.length || 
+          !thumbnail ||
+          !category ||
+          !instructions.length
+        ){
             return res.status(400).json({
                 success: false,
                 message: "All fields are required"
             })
         }
+        
+        if (!status || status === undefined) {
+          status = "Draft"
+        }
 
         //check for instructor(as in model of course we have to store userid of instructor)
         const userId = req.user.id //earlier in middleware we have inserted the id in the payload and inserted that payload in the req.user
-        const instructorDetails = await User.findById(userId)
+        const instructorDetails = await User.findById(userId, 
+                                                    {accountType: "Instructor"})
+                                                    
         console.log("Instructor details : ", instructorDetails)
         //TODO: Verify if userId and instructorDetails._id are same or different
 
@@ -39,17 +72,18 @@ exports.createCourse = async(req, res) => {
         }
 
         //check if given tag is valid or not
-        const tagDetails = await Tag.findById(tag) //here tag is a reference..i.e..objectId
+        const categoryDetails = await Category.findById(category) //here category is a reference..i.e..objectId
 
-        if(!tagDetails){
+        if(!categoryDetails){
             return res.status(404).json({
                 success: false,
-                message: "Tag details not found"
+                message: "Category details not found"
             })
         }
 
         //Upload Image to cloudinary
         const thumbnailImage = await uploadImageToCloudinary(thumbnail, process.env.FOLDER_NAME)
+        console.log(thumbnailImage)
 
         //create an entry for new course
         const newCourse = await Course.create({
@@ -58,8 +92,11 @@ exports.createCourse = async(req, res) => {
             instructor: instructorDetails._id,
             whatYouWillLearn: whatYouWillLearn,
             price,
-            tag: tagDetails._id,
+            tag,
+            category: categoryDetails._id,
             thumbnail: thumbnailImage.secure_url,
+            status: status,
+            instructions,
         })
 
         //add the new course to the user schema of instructor
@@ -75,8 +112,17 @@ exports.createCourse = async(req, res) => {
             {new: true},
         )
 
-        //update the tag schema
-        //Homework
+        // Add the new course to the Categories
+        const categoryDetails2 = await Category.findByIdAndUpdate(
+          { _id: category },
+          {
+            $push: {
+              courses: newCourse._id,
+            },
+          },
+          { new: true }
+        )
+        console.log("Category details -> ", categoryDetails2)
 
         //return response
         return res.status(200).json({
@@ -168,14 +214,15 @@ exports.editCourse = async (req, res) => {
 exports.getAllCourses = async(req, res) => {
 
     try{
-        const allCourses = await Course.find({}, {courseName: true,
-                                                price: true,
-                                                thumbnail: true,
-                                                instructor: true,
-                                                ratingAndReviews: true,
-                                                studentsEnrolled: true,})
-                                                .populate("instructor")
-                                                .exec()
+        const allCourses = await Course.find({status: "Published"}, 
+                                              {courseName: true,
+                                              price: true,
+                                              thumbnail: true,
+                                              instructor: true,
+                                              ratingAndReviews: true,
+                                              studentsEnrolled: true,})
+                                              .populate("instructor")
+                                              .exec()
         
         return res.status(200).json({
             success: true,
@@ -193,7 +240,7 @@ exports.getAllCourses = async(req, res) => {
     }
 }
 
-//getCourseDetails handler function
+//get Single Course Details handler function
 exports.getCourseDetails = async(req, res) => {
 
     try{
@@ -227,12 +274,27 @@ exports.getCourseDetails = async(req, res) => {
                 message: `Could not find the course with ${courseId}`
             })
         }
+        
+        let totalDurationInSeconds = 0
+        //calling forEach on undefined element can cause typeError....
+        //That's why ?. is used when we are not sure when the element is undefined or not
+        courseDetails.courseContent?.forEach((content) => {
+          content.subSection.forEach((subSection) => {
+            const timeDurationInSeconds = parseInt(subSection.timeDuration)
+            totalDurationInSeconds += timeDurationInSeconds
+          })
+        })
+
+    const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
 
         //return response
         return res.status(200).json({
             success: true,
             message: "Course details fetched successfully",
-            data: courseDetails,
+            data: {
+              courseDetails,
+              totalDuration,
+            }
         })
     }
     catch(error){
@@ -355,7 +417,7 @@ exports.deleteCourse = async (req, res) => {
       }
   
       // Unenroll students from the course
-      const studentsEnrolled = course.studentsEnroled
+      const studentsEnrolled = course.studentsEnrolled
       for (const studentId of studentsEnrolled) {
         await User.findByIdAndUpdate(studentId, {
           $pull: { courses: courseId },

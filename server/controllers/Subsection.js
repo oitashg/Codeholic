@@ -12,12 +12,14 @@ exports.createSubSection = async(req, res) => {
 
         //extract video/file
         const video = req.files.videoFile
+        console.log("Video -> ", req.files)
+        console.log("Video -> ", video)
 
         //validation
         if(!sectionId || !title || !timeDuration || !description || !video){
             return res.status(400).json({
                 success: false,
-                message: "All fileds are required"
+                message: "All fields are required"
             })
         }
 
@@ -44,7 +46,11 @@ exports.createSubSection = async(req, res) => {
                                                         }
                                                     },
                                                     {new: true})
-        //HW: log updated section here after adding populate query
+                                                    .populate("subSection")
+                                                    .exec()
+
+        console.log("Updated Section Details -> ", updatedSection)
+  
         //return response
         return res.status(200).json({
             success: true,
@@ -61,9 +67,7 @@ exports.createSubSection = async(req, res) => {
     }
 }
 
-//HW: updateSubSetion handler function
-//HW: deleteSubsection handler function
-
+//update subsection handler funtion
 exports.updateSubSection = async (req, res) => {
     try {
       const { sectionId, subSectionId, title, description } = req.body
@@ -115,7 +119,8 @@ exports.updateSubSection = async (req, res) => {
       })
     }
 }
-  
+
+//delete subsection handler funtion
 exports.deleteSubSection = async (req, res) => {
     try {
       const { subSectionId, sectionId } = req.body

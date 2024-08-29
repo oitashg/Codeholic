@@ -18,7 +18,7 @@ exports.createSection = async(req, res) => {
         }
 
         //create section
-        const newSection = await Section.create({newSection})
+        const newSection = await Section.create({sectionName})
 
         //update course with new Section objectId
         const updatedCourseDetails = await Course.findByIdAndUpdate(
@@ -30,8 +30,14 @@ exports.createSection = async(req, res) => {
                                             },
                                             {new: true},
                                         )
+                                        .populate({
+                                            path: "courseContent",
+                                            populate: {
+                                                path: "subSection",
+                                            },
+                                        })
+                                        .exec()
 
-        //HW: use populate to replace sections and sub-sections both in the updatedCourseDetails
         //return response
         return res.status(200).json({
             success: true,
