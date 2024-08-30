@@ -146,6 +146,8 @@ exports.editCourse = async (req, res) => {
     try {
       const { courseId } = req.body
       const updates = req.body
+      console.log("Updates -> ", updates)
+
       const course = await Course.findById(courseId)
   
       if (!course) {
@@ -167,7 +169,8 @@ exports.editCourse = async (req, res) => {
       for (const key in updates) {
         if (updates.hasOwnProperty(key)) {
           if (key === "tag" || key === "instructions") {
-            course[key] = JSON.parse(updates[key])
+            //stringify converts Javascript object into JSON string
+            course[key] = JSON.stringify(updates[key])
           } else {
             course[key] = updates[key]
           }
@@ -408,10 +411,12 @@ exports.getInstructorCourses = async (req, res) => {
 // Delete the Course
 exports.deleteCourse = async (req, res) => {
     try {
-      const { courseId } = req.body
+      const { categoryId, courseId } = req.body
   
       // Find the course
       const course = await Course.findById(courseId)
+      console.log("Course -> ", course)
+
       if (!course) {
         return res.status(404).json({ message: "Course not found" })
       }
@@ -426,11 +431,17 @@ exports.deleteCourse = async (req, res) => {
   
       // Delete sections and sub-sections
       const courseSections = course.courseContent
+      console.log("Course Section -> ", courseSections)
+
       for (const sectionId of courseSections) {
         // Delete sub-sections of the section
         const section = await Section.findById(sectionId)
+        console.log("Section -> ", section)
+
         if (section) {
           const subSections = section.subSection
+          console.log("Sub-section -> ", subSections)
+          
           for (const subSectionId of subSections) {
             await SubSection.findByIdAndDelete(subSectionId)
           }
@@ -442,12 +453,27 @@ exports.deleteCourse = async (req, res) => {
   
       // Delete the course
       await Course.findByIdAndDelete(courseId)
-  
+      
+      //TODO: Update the category schema..i.e..
+      //we have to delete the course from the courses array of category model
+      const updatedCategory = await Category.findByIdAndUpdate(
+                                              {_id: categoryId},
+                                              {
+                                                $pull: {
+                                                  courses: courseId,
+                                                }
+                                              },
+                                              {new: true})
+                                              .populate("courses")
+                                              .exec()
+
       return res.status(200).json({
         success: true,
         message: "Course deleted successfully",
+        updatedCategory,
       })
-    } catch (error) {
+    } 
+    catch (error) {
       console.error(error)
       return res.status(500).json({
         success: false,

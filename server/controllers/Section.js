@@ -1,6 +1,6 @@
 const Section = require("../models/Section")
 const Course = require("../models/Course")
-
+const SubSection = require("../models/SubSection")
 
 //create Section handler function
 exports.createSection = async(req, res) => {
@@ -94,18 +94,47 @@ exports.deleteSection = async(req, res) => {
 
     try{
         //get ID - assuming that we are sending ID in the params
-        const {sectionId} = req.params
+        const {courseId, sectionId} = req.body
+        console.log("Section id -> ", sectionId)
+
+        //First find the section using sectionID
+        const section = await Section.findById(sectionId)
+        console.log("Section-> ", section)
+
+        if (!section) {
+            return res.status(404).json({ message: "Section not found" })
+        }
+
+        //Delete the sub-sections
+
+        //subSections is basically the sub-section array
+        const subSections = section.subSection
+        console.log("Subsections -> ", subSections)
+
+        for(const subSectionId of subSections){
+            //find the subsection id from schema and delete it
+            await SubSection.findByIdAndDelete(subSectionId)
+        }
 
         //find section with the help of id and then delete
         await Section.findByIdAndDelete(sectionId)
 
         //TODO: Do we need to delete the entry of sectionId manually from the course schema?
-
+        //Yes we have to
+        const updatedCourse = await Course.findByIdAndUpdate(
+                                        {_id: courseId},
+                                        {
+                                            $pull: {
+                                                courseContent: sectionId,
+                                            }
+                                        },
+                                        {new: true})
+        
         //return response
         return res.status(200).json({
             success: true,
             message: "Section deleted successfully",
-            
+            updatedCourse,
         })
     }
     catch(error){

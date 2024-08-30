@@ -102,7 +102,7 @@ exports.deleteAccount = async(req, res) => {
 
 //get all User details handler function
 exports.getAllUserDetails = async(req, res) => {
-
+  
     try{
         //get id
         const id = req.user.id
@@ -117,6 +117,7 @@ exports.getAllUserDetails = async(req, res) => {
         return res.status(200).json({
             success: true,
             message: "User data fetched successfully",
+            userDetails,
         })
     }
     catch(error){
