@@ -223,7 +223,8 @@ exports.getAllCourses = async(req, res) => {
                                               thumbnail: true,
                                               instructor: true,
                                               ratingAndReviews: true,
-                                              studentsEnrolled: true,})
+                                              studentsEnrolled: true},
+                                              {new: true})
                                               .populate("instructor")
                                               .exec()
         
@@ -253,7 +254,8 @@ exports.getCourseDetails = async(req, res) => {
         //find course details(we don't want object ID..so populate everything)
         const courseDetails = await Course.find(
                                     //searcing parameter
-                                    {_id: courseId})
+                                    {_id: courseId},
+                                    {new: true})
                                     .populate({
                                         path: "instructor",
                                         populate: {
