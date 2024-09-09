@@ -52,7 +52,7 @@ exports.sendOTP = async(req, res) => {
 
         //create a entry in database for otp
         const otpBody = await OTP.create(otpPayload)
-        console.log(otpBody)
+        console.log("OTP body -> ", otpBody)
 
         //return response successful
         res.status(200).json({
@@ -137,6 +137,10 @@ exports.signUp = async(req, res) => {
 
         //Hash password
         const hashedPassword = await bcrypt.hash(password, 10)
+
+        // Create the user
+        let approved = ""
+        approved === "Instructor" ? (approved = false) : (approved = true)
 
         //create entry in database
         const profileDetails = await Profile.create({
