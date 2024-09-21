@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
     profile: profileReducer,
     cart: cartReducer,
     course: courseReducer,
-    vewCourse: viewCourseReducer,
+    viewCourse: viewCourseReducer,
 })
 
 export default rootReducer
