@@ -46,7 +46,7 @@ const Upload = ({
         const reader = new FileReader()
         reader.readAsDataURL(file)
         reader.onloadend = () => {
-        setPreviewSource(reader.result)
+          setPreviewSource(reader.result)
         }
     }
 

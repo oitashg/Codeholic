@@ -11,16 +11,16 @@ const RenderSteps = () => {
 
     const steps = [
         {
-        id: 1,
-        title: "Course Information",
+            id: 1,
+            title: "Course Information",
         },
         {
-        id: 2,
-        title: "Course Builder",
+            id: 2,
+            title: "Course Builder",
         },
         {
-        id: 3,
-        title: "Publish",
+            id: 3,
+            title: "Publish",
         },
     ]
 
@@ -48,6 +48,7 @@ const RenderSteps = () => {
               </button>
               
             </div>
+            
             {item.id !== steps.length && (
               <>
                 <div
@@ -81,6 +82,7 @@ const RenderSteps = () => {
           </>
         ))}
       </div>
+      
       {/* Render specific component based on current step */}
       {step === 1 && <CourseInformationForm />}
       {step === 2 && <CourseBuilderForm />}

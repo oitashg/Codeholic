@@ -1,98 +1,113 @@
-import React, { useState } from 'react'
-import toast from 'react-hot-toast'
-import IconBtn from '../../../../common/IconBtn'
-import { IoAddCircleOutline } from 'react-icons/io5'
-import { MdNavigateNext } from 'react-icons/md'
-import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
-import { setCourse, setEditCourse, setStep } from '../../../../../slices/courseSlice'
-import {createSection, updateSection} from '../../../../../services/operations/courseDetailsAPI'
-import NestedView from './NestedView'
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+import IconBtn from "../../../../common/IconBtn";
+import { IoAddCircleOutline } from "react-icons/io5";
+import { MdNavigateNext } from "react-icons/md";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setCourse,
+  setEditCourse,
+  setStep,
+} from "../../../../../slices/courseSlice";
+import {
+  createSection,
+  updateSection,
+} from "../../../../../services/operations/courseDetailsAPI";
+import NestedView from "./NestedView";
 
 const CourseBuilderForm = () => {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
 
-    const {
-        register,
-        handleSubmit,
-        setValue,
-        formState: { errors },
-    } = useForm()
+  const { course } = useSelector((state) => state.course);
+  const { token } = useSelector((state) => state.auth);
+  const [loading, setLoading] = useState(false);
+  const [editSectionName, setEditSectionName] = useState(null);
+  const dispatch = useDispatch();
 
-    const { course } = useSelector((state) => state.course)
-    const { token } = useSelector((state) => state.auth)
-    const [loading, setLoading] = useState(false)
-    const [editSectionName, setEditSectionName] = useState(null)
-    const dispatch = useDispatch()
+  // handle form submission
+  const onSubmit = async (data) => {
+    // console.log(data)
+    setLoading(true);
 
-    // handle form submission
-    const onSubmit = async (data) => {
-        // console.log(data)
-        setLoading(true)
+    let result;
+    
+    console.log("Edit section name-> ", editSectionName)
 
-        let result
+    if (editSectionName) {
+      result = await updateSection(
+        {
+          sectionName: data.sectionName,
+          sectionId: editSectionName,
+          courseId: course._id,
+        },
+        token
+      );
 
-        if (editSectionName) {
-        result = await updateSection(
-            {
-                sectionName: data.sectionName,
-                sectionId: editSectionName,
-                courseId: course._id,
-            },
-            token
-        )
-        // console.log("edit", result)
-        }
-        else {
-            result = await createSection(
-                {
-                    sectionName: data.sectionName,
-                    courseId: course._id,
-                },
-                token
-            )
-        }
-        
-        if (result) {
-            // console.log("section result", result)
-            dispatch(setCourse(result))
-            setEditSectionName(null)
-            setValue("sectionName", "")
-        }
-        setLoading(false)
+      console.log("edit -> ", result)
+    } 
+    else {
+      result = await createSection(
+        {
+          sectionName: data.sectionName,
+          courseId: course._id,
+        },
+        token
+      );
     }
 
-    const cancelEdit = () => {
-        setEditSectionName(null)
-        setValue("sectionName", "")
+    console.log("section result", result)
+    
+    if (result) {
+      dispatch(setCourse(result));
+      setEditSectionName(null);
+      setValue("sectionName", "");
+    }
+    setLoading(false);
+  };
+
+  const cancelEdit = () => {
+    setEditSectionName(null);
+    setValue("sectionName", "");
+  };
+
+  const handleChangeEditSectionName = (sectionId, sectionName) => {
+    //Didn't change the section name, so it is the old sectionID only, so call cancelEdit
+    if (editSectionName === sectionId) {
+      cancelEdit();
+      return;
     }
 
-    const handleChangeEditSectionName = (sectionId, sectionName) => {
-        if (editSectionName === sectionId) {
-            cancelEdit()
-            return
-        }
-        setEditSectionName(sectionId)
-        setValue("sectionName", sectionName)
-    }
+    //Section name changed
+    setEditSectionName(sectionId);
+    setValue("sectionName", sectionName);
+  };
 
-    const goToNext = () => {
-        if (course.courseContent.length === 0) {
-            toast.error("Please add atleast one section")
-            return
-        }
-        if (
-            course.courseContent.some((section) => section.subSection.length === 0)
-        ) {
-            toast.error("Please add atleast one lecture in each section")
-            return
-        }
-        dispatch(setStep(3))
+  const goToNext = () => {
+    if (course.courseContent.length === 0) {
+      toast.error("Please add atleast one section");
+      return;
     }
+    if (
+      course.courseContent.some((section) => section.subSection.length === 0)
+    ) {
+      toast.error("Please add atleast one lecture in each section");
+      return;
+    }
+    dispatch(setStep(3));
+    console.log("Clicked")
+  };
 
-    const goBack = () => {
-        dispatch(setStep(1))
-        dispatch(setEditCourse(true))
-    }
+  const goBack = () => {
+    dispatch(setStep(1));
+    dispatch(setEditCourse(true));
+  };
+  
   return (
     <div className="space-y-8 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6">
       <p className="text-2xl font-semibold text-richblack-5">Course Builder</p>
@@ -134,23 +149,32 @@ const CourseBuilderForm = () => {
           )}
         </div>
       </form>
-      {course.courseContent.length > 0 && (
+
+      {course?.courseContent?.length > 0 && (
         <NestedView handleChangeEditSectionName={handleChangeEditSectionName} />
       )}
-      {/* Next Prev Button */}
+
+      {/* Back and Next Button */}
       <div className="flex justify-end gap-x-3">
+
+        {/* Back Button */}
         <button
           onClick={goBack}
           className={`flex cursor-pointer items-center gap-x-2 rounded-md bg-richblack-300 py-[8px] px-[20px] font-semibold text-richblack-900`}
         >
           Back
         </button>
-        <IconBtn disabled={loading} text="Next" onclick={goToNext}>
-          <MdNavigateNext />
-        </IconBtn>
+
+        {/* Next Button */}
+        <button
+          onClick={goToNext}
+          className={`flex cursor-pointer items-center gap-x-2 rounded-md bg-yellow-200 py-[8px] px-[20px] font-semibold text-richblack-900`}
+        >
+          Next
+        </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CourseBuilderForm
+export default CourseBuilderForm;
