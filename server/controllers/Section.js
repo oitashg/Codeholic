@@ -42,7 +42,7 @@ exports.createSection = async(req, res) => {
         return res.status(200).json({
             success: true,
             message: "Section created successfully",
-            updatedCourseDetails,
+            data: updatedCourseDetails,
         })
     }
     catch(error){
@@ -59,7 +59,7 @@ exports.updateSection = async(req, res) => {
 
     try{
         //data input
-        const {sectionName, sectionId} = req.body
+        const {sectionName, sectionId, courseId} = req.body
 
         //data validation
         if(!sectionName || !sectionId){
@@ -72,12 +72,22 @@ exports.updateSection = async(req, res) => {
         //update data
         //no need to update section name in the course model, as in course model sectionId is present not name. So it will be automatically updated
         const section = await Section.findByIdAndUpdate(sectionId, {sectionName}, {new: true})
+        
+        //need to update the course as section being updated, otherwise it will not be reflected in UI
+        const updatedCourse = await Course.findById(courseId)
+                                    .populate({
+                                        path: "courseContent",
+                                        populate: {
+                                            path: "subSection"
+                                        }
+                                    })
+                                    .exec()
 
         //return response
         return res.status(200).json({
             success: true,
             message: "Section updated successfully",
-            
+            data: updatedCourse,
         })        
     }
     catch(error){
@@ -134,7 +144,7 @@ exports.deleteSection = async(req, res) => {
         return res.status(200).json({
             success: true,
             message: "Section deleted successfully",
-            updatedCourse,
+            data: updatedCourse,
         })
     }
     catch(error){
