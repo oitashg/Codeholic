@@ -20,6 +20,13 @@ import Cart from './components/core/Dashboard/Cart';
 import { useSelector } from 'react-redux';
 import { ACCOUNT_TYPE } from './utils/constants';
 import AddCourse from './components/core/Dashboard/AddCourse';
+import MyCourses from './components/core/Dashboard/MyCourses';
+import EditCourse from './components/core/Dashboard/EditCourse';
+import Catalog from './pages/Catalog';
+import CourseDetails from './pages/CourseDetails';
+import VideoDetails from './components/core/ViewCourse/VideoDetails';
+import ViewCourse from './pages/ViewCourse';
+import Instructor from './components/core/Dashboard/InstructorDashboard/Instructor';
 
 function App() {
 
@@ -35,6 +42,10 @@ function App() {
       {/* Routes directing to respective pages are given here */}
       <Routes>
         <Route path='/' element={<Home/>}/>
+
+        {/* Route for respective catagories */}
+        <Route path='catalog/:catalogName' element={<Catalog/>}/>
+        <Route path='courses/:courseId' element={<CourseDetails/>}/>
 
         {/* Wrapped in openRoute so that everyone can visit */}
         <Route 
@@ -120,11 +131,30 @@ function App() {
             //Always add ? to ensure whether accountType is present or not
             user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
               <>
+                <Route path='dashboard/instructor' element={<Instructor/>}/>
                 <Route path='dashboard/add-course' element={<AddCourse/>}/>
+                <Route path='dashboard/my-courses' element={<MyCourses/>}/>
+                <Route path='dashboard/edit-course/:courseId' element={<EditCourse/>}/>
               </>
             )
           }
 
+        </Route>
+
+        <Route element={
+          <PrivateRoute>
+            <ViewCourse/>
+          </PrivateRoute>
+        }>
+          {
+            user?.accountType === ACCOUNT_TYPE.STUDENT && (
+              <>
+                <Route
+                  path='view-course/:courseId/section/:sectionId/sub-section/:subSectionId'
+                  element={<VideoDetails/>}/>
+              </>
+            )
+          }
         </Route>
 
         {/* If unknown route then show error page */}
