@@ -48,8 +48,8 @@ export async function getUserEnrolledCourses(token) {
       GET_USER_ENROLLED_COURSES_API,
       null,
       {
-        //remember the spelling of "Authorisation"
-        Authorisation: `Bearer ${token}`,
+        //remember the spelling of "Authorization"
+        Authorization: `Bearer ${token}`,
       }
     );
     console.log("AFTER Calling BACKEND API FOR ENROLLED COURSES");
