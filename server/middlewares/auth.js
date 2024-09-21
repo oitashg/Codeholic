@@ -10,7 +10,7 @@ exports.auth = async(req, res, next) => {
         //most avoided way-> from body and most safe way-> from bearer token
         const token = req.cookies.token
                         || req.body.token
-                         || req.header("Authorisation").replace("Bearer ", "")
+                         || req.header("Authorization").replace("Bearer ", "")
 
         //if token missing, then return response
         if(!token){
