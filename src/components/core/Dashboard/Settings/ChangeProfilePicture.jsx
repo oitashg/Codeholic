@@ -17,15 +17,15 @@ const ChangeProfilePicture = () => {
     const fileInputRef = useRef(null)
 
     const handleClick = () => {
-        fileInputRef.current.click()
+      fileInputRef.current.click()
     }
 
     const handleFileChange = (e) => {
         const file = e.target.files[0]
         // console.log(file)
         if (file) {
-        setImageFile(file)
-        previewFile(file)
+          setImageFile(file)
+          previewFile(file)
         }
     }
 
@@ -34,27 +34,29 @@ const ChangeProfilePicture = () => {
         reader.readAsDataURL(file)
         reader.onloadend = () => {
         setPreviewSource(reader.result)
-        }
+      }
     }
 
     const handleFileUpload = () => {
         try {
-        console.log("uploading...")
-        setLoading(true)
-        const formData = new FormData()
-        formData.append("displayPicture", imageFile)
-        // console.log("formdata", formData)
-        dispatch(updateDisplayPicture(token, formData)).then(() => {
+          console.log("uploading...")
+          setLoading(true)
+          const formData = new FormData()
+          formData.append("displayPicture", imageFile)
+          console.log("formdata", formData)
+          
+          dispatch(updateDisplayPicture(token, formData)).then(() => {
             setLoading(false)
-        })
-        } catch (error) {
-        console.log("ERROR MESSAGE - ", error.message)
+          })
+        } 
+        catch (error) {
+          console.log("ERROR MESSAGE - ", error.message)
         }
     }
 
     useEffect(() => {
         if (imageFile) {
-        previewFile(imageFile)
+          previewFile(imageFile)
         }
     }, [imageFile])
 
@@ -83,9 +85,10 @@ const ChangeProfilePicture = () => {
               >
                 Select
               </button>
+
               <IconBtn
                 text={loading ? "Uploading..." : "Upload"}
-                onclick={handleFileUpload}
+                onClick={handleFileUpload}
               >
                 {!loading && (
                   <FiUpload className="text-lg text-richblack-900" />

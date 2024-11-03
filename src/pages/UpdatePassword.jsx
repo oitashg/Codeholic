@@ -60,16 +60,19 @@ const UpdatePassword = () => {
                 value={password}
                 onChange={handleOnChange}
                 placeholder="Enter Password"
-                className="form-style w-full !pr-10"
+                style={{
+                  boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+                }}
+                className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
               />
               <span
                 onClick={() => setShowPassword((prev) => !prev)}
                 className="absolute right-3 top-[38px] z-[10] cursor-pointer"
               >
                 {showPassword ? (
-                  <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
-                ) : (
                   <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+                ) : (
+                  <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
                 )}
               </span>
             </label>
@@ -84,16 +87,19 @@ const UpdatePassword = () => {
                 value={confirmPassword}
                 onChange={handleOnChange}
                 placeholder="Confirm Password"
-                className="form-style w-full !pr-10"
+                style={{
+                  boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+                }}
+                className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
               />
               <span
                 onClick={() => setShowConfirmPassword((prev) => !prev)}
                 className="absolute right-3 top-[38px] z-[10] cursor-pointer"
               >
                 {showConfirmPassword ? (
-                  <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
-                ) : (
                   <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+                ) : (
+                  <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
                 )}
               </span>
             </label>

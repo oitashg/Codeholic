@@ -2,6 +2,7 @@ import React from 'react'
 import * as Icons from "react-icons/vsc"
 import { useDispatch } from 'react-redux'
 import { matchPath, NavLink, useLocation } from 'react-router-dom'
+import { resetCourseState } from '../../../slices/courseSlice'
 
 //It represent each sidebar link i.e each tab of sidebar
 const SidebarLink = ({link, iconName}) => {
@@ -12,13 +13,13 @@ const SidebarLink = ({link, iconName}) => {
 
     //function to match the sidebar link on which we clicked and the current path from the window
     const matchRoute = (route) => {
-        return matchPath({path: route}, location.pathname)
+      return matchPath({path: route}, location.pathname)
     }
 
   return (
     <NavLink
       to={link.path}
-      // onClick={() => dispatch(resetCourseState())}
+      onClick={() => dispatch(resetCourseState())}
       className={`relative px-8 py-2 text-sm font-medium ${
         matchRoute(link.path)
           ? "bg-yellow-800 text-yellow-50"

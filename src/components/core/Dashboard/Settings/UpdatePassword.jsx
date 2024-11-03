@@ -23,9 +23,10 @@ const UpdatePassword = () => {
     const submitPasswordForm = async (data) => {
         // console.log("password Data - ", data)
         try {
-        await changePassword(token, data)
-        } catch (error) {
-        console.log("ERROR MESSAGE - ", error.message)
+          await changePassword(token, data)
+        } 
+        catch (error) {
+          console.log("ERROR MESSAGE - ", error.message)
         }
     }
 
@@ -35,35 +36,43 @@ const UpdatePassword = () => {
           <h2 className="text-lg font-semibold text-richblack-5">Password</h2>
           <div className="flex flex-col gap-5 lg:flex-row">
             <div className="relative flex flex-col gap-2 lg:w-[48%]">
-              <label htmlFor="oldPassword" className="lable-style">
+
+              <label htmlFor="oldPassword" className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
                 Current Password
               </label>
+
               <input
                 type={showOldPassword ? "text" : "password"}
                 name="oldPassword"
                 id="oldPassword"
                 placeholder="Enter Current Password"
-                className="form-style"
+                style={{
+                  boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+                }}
+                className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
                 {...register("oldPassword", { required: true })}
               />
+
               <span
                 onClick={() => setShowOldPassword((prev) => !prev)}
                 className="absolute right-3 top-[38px] z-[10] cursor-pointer"
               >
                 {showOldPassword ? (
-                  <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
-                ) : (
                   <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+                ) : (
+                  <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
                 )}
               </span>
+
               {errors.oldPassword && (
                 <span className="-mt-1 text-[12px] text-yellow-100">
                   Please enter your Current Password.
                 </span>
               )}
             </div>
+
             <div className="relative flex flex-col gap-2 lg:w-[48%]">
-              <label htmlFor="newPassword" className="lable-style">
+              <label htmlFor="newPassword" className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
                 New Password
               </label>
               <input
@@ -71,7 +80,10 @@ const UpdatePassword = () => {
                 name="newPassword"
                 id="newPassword"
                 placeholder="Enter New Password"
-                className="form-style"
+                style={{
+                  boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+                }}
+                className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
                 {...register("newPassword", { required: true })}
               />
               <span
@@ -79,9 +91,9 @@ const UpdatePassword = () => {
                 className="absolute right-3 top-[38px] z-[10] cursor-pointer"
               >
                 {showNewPassword ? (
-                  <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
-                ) : (
                   <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+                ) : (
+                  <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
                 )}
               </span>
               {errors.newPassword && (

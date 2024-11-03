@@ -10,7 +10,8 @@ const MyProfile = () => {
     const {user} = useSelector((state) => state.profile)
     const navigate = useNavigate()
 
-
+    console.log("User -> ", user)
+    
   return (
     <div>
         <h1 className='mb-14 text-3xl font-medium text-richblack-5'>
@@ -51,8 +52,8 @@ const MyProfile = () => {
             <p className="text-lg font-semibold text-richblack-5">About</p>
             <IconBtn
                 text="Edit"
-                onclick={() => {
-                navigate("/dashboard/settings")
+                onClick={() => {
+                  navigate("/dashboard/settings")
                 }}
             >
                 <RiEditBoxLine />
@@ -76,7 +77,7 @@ const MyProfile = () => {
           </p>
           <IconBtn
             text="Edit"
-            onclick={() => {
+            onClick={() => {
               navigate("/dashboard/settings")
             }}
           >

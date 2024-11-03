@@ -113,7 +113,7 @@ function App() {
           <Route path='dashboard/settings' element={<Settings/>}/>
           
           {
-            //If this validation is not added, then instructor can also open ebrolled-courses and cart page which is logically wrong
+            //If this validation is not added, then instructor can also open enrolled-courses and cart page which is logically wrong
             //That's why this validation is added
             //Always add ? to ensure whether accountType is present or not
             user?.accountType === ACCOUNT_TYPE.STUDENT && (

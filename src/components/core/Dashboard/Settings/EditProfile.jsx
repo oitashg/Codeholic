@@ -21,11 +21,12 @@ const EditProfile = () => {
     } = useForm()
 
     const submitProfileForm = async (data) => {
-        // console.log("Form Data - ", data)
+        console.log("Form Data while submitting the form-> ", data)
         try {
-        dispatch(updateProfile(token, data))
-        } catch (error) {
-        console.log("ERROR MESSAGE - ", error.message)
+          dispatch(updateProfile(token, data))
+        } 
+        catch (error) {
+          console.log("ERROR MESSAGE - ", error.message)
         }
     }
 
@@ -38,7 +39,7 @@ const EditProfile = () => {
           </h2>
           <div className="flex flex-col gap-5 lg:flex-row">
             <div className="flex flex-col gap-2 lg:w-[48%]">
-              <label htmlFor="firstName" className="lable-style">
+              <label htmlFor="firstName" className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
                 First Name
               </label>
               <input
@@ -46,7 +47,10 @@ const EditProfile = () => {
                 name="firstName"
                 id="firstName"
                 placeholder="Enter first name"
-                className="form-style"
+                style={{
+                  boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+                }}
+                className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
                 {...register("firstName", { required: true })}
                 defaultValue={user?.firstName}
               />
@@ -56,8 +60,9 @@ const EditProfile = () => {
                 </span>
               )}
             </div>
+            
             <div className="flex flex-col gap-2 lg:w-[48%]">
-              <label htmlFor="lastName" className="lable-style">
+              <label htmlFor="lastName" className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
                 Last Name
               </label>
               <input
@@ -65,7 +70,10 @@ const EditProfile = () => {
                 name="lastName"
                 id="lastName"
                 placeholder="Enter first name"
-                className="form-style"
+                style={{
+                  boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+                }}
+                className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
                 {...register("lastName", { required: true })}
                 defaultValue={user?.lastName}
               />
@@ -79,14 +87,17 @@ const EditProfile = () => {
 
           <div className="flex flex-col gap-5 lg:flex-row">
             <div className="flex flex-col gap-2 lg:w-[48%]">
-              <label htmlFor="dateOfBirth" className="lable-style">
+              <label htmlFor="dateOfBirth" className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
                 Date of Birth
               </label>
               <input
                 type="date"
                 name="dateOfBirth"
                 id="dateOfBirth"
-                className="form-style"
+                style={{
+                  boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+                }}
+                className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
                 {...register("dateOfBirth", {
                   required: {
                     value: true,
@@ -105,15 +116,19 @@ const EditProfile = () => {
                 </span>
               )}
             </div>
+
             <div className="flex flex-col gap-2 lg:w-[48%]">
-              <label htmlFor="gender" className="lable-style">
+              <label htmlFor="gender" className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
                 Gender
               </label>
               <select
                 type="text"
                 name="gender"
                 id="gender"
-                className="form-style"
+                style={{
+                  boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+                }}
+                className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
                 {...register("gender", { required: true })}
                 defaultValue={user?.additionalDetails?.gender}
               >
@@ -135,7 +150,7 @@ const EditProfile = () => {
 
           <div className="flex flex-col gap-5 lg:flex-row">
             <div className="flex flex-col gap-2 lg:w-[48%]">
-              <label htmlFor="contactNumber" className="lable-style">
+              <label htmlFor="contactNumber" className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
                 Contact Number
               </label>
               <input
@@ -143,7 +158,10 @@ const EditProfile = () => {
                 name="contactNumber"
                 id="contactNumber"
                 placeholder="Enter Contact Number"
-                className="form-style"
+                style={{
+                  boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+                }}
+                className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
                 {...register("contactNumber", {
                   required: {
                     value: true,
@@ -160,8 +178,9 @@ const EditProfile = () => {
                 </span>
               )}
             </div>
+
             <div className="flex flex-col gap-2 lg:w-[48%]">
-              <label htmlFor="about" className="lable-style">
+              <label htmlFor="about" className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
                 About
               </label>
               <input
@@ -169,7 +188,10 @@ const EditProfile = () => {
                 name="about"
                 id="about"
                 placeholder="Enter Bio Details"
-                className="form-style"
+                style={{
+                  boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+                }}
+                className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
                 {...register("about", { required: true })}
                 defaultValue={user?.additionalDetails?.about}
               />

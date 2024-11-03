@@ -11,7 +11,7 @@ exports.updateProfile = async(req, res) => {
 
     try{
         //get the data
-        const {dateofBirth = "", about = "", contactNumber, gender} = req.body
+        const {dateOfBirth = "", about = "", contactNumber, gender} = req.body
 
         //get the userID
         const id = req.user.id
@@ -39,7 +39,7 @@ exports.updateProfile = async(req, res) => {
         //Another way to update the values in database..i.e..by save
         //When object already present(here profileDetails) then use save
         //First one was by create...here no object was created
-        profileDetails.dateOfBirth = dateofBirth
+        profileDetails.dateOfBirth = dateOfBirth
         profileDetails.about = about
         profileDetails.gender = gender
         profileDetails.contactNumber = contactNumber
