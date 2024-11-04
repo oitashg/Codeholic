@@ -16,6 +16,7 @@ const Instructor = () => {
     useEffect(() => {
       ;(async () => {
         setLoading(true)
+        
         const instructorApiData = await getInstructorData(token)
         const result = await fetchInstructorCourses(token)
         console.log("Instructor API data->", instructorApiData)
@@ -44,10 +45,12 @@ const Instructor = () => {
           <h1 className="text-2xl font-bold text-richblack-5">
             Hi {user?.firstName} 👋
           </h1>
+
           <p className="font-medium text-richblack-200">
             Let's start something new
           </p>
         </div>
+
         {loading ? (
           <div className="spinner"></div>
         ) : courses.length > 0 ? (
@@ -64,6 +67,7 @@ const Instructor = () => {
                   </p>
                 </div>
               )}
+
               {/* Total Statistics */}
               <div className="flex min-w-[250px] flex-col rounded-md bg-richblack-800 p-6">
                 <p className="text-lg font-bold text-richblack-5">Statistics</p>
@@ -90,6 +94,7 @@ const Instructor = () => {
               </div>
             </div>
             <div className="rounded-md bg-richblack-800 p-6">
+
               {/* Render 3 courses */}
               <div className="flex items-center justify-between">
                 <p className="text-lg font-bold text-richblack-5">Your Courses</p>
