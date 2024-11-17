@@ -19,7 +19,7 @@ const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
         thumbnail: ThumbnailImage,
         price: CurrentPrice,
         _id: courseId,
-    } = course
+    } = course[0]
 
     const handleShare = () => {
         copy(window.location.href)
@@ -45,7 +45,7 @@ const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
         })
     }
 
-    // console.log("Student already enrolled ", course?.studentsEnroled, user?._id)
+    // console.log("Student already enrolled ", course?.studentsEnrolled, user?._id)
 
   return (
     <>

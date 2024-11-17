@@ -20,7 +20,9 @@ const cartSlice = createSlice({
         addToCart: (state, action) => {
 
             const course = action.payload
-            const index = state.cart.findIndex((item) => item._id === course._id)
+            const index = state.cart.findIndex((item) => item._id === course[0]._id)
+            console.log("Index -> ", index)
+            console.log("Course -> ", course)
       
             if (index >= 0) {
                 // If the course is already in the cart, do not modify the quantity

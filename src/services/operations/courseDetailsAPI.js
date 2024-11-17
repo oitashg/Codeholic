@@ -21,6 +21,7 @@ const {
   LECTURE_COMPLETION_API,
 } = courseEndpoints;
 
+//fetch all courses
 export const getAllCourses = async () => {
   const toastId = toast.loading("Loading...");
   let result = [];
@@ -38,6 +39,7 @@ export const getAllCourses = async () => {
   return result;
 };
 
+//fetch the available course details
 export const fetchCourseDetails = async (courseId) => {
   const toastId = toast.loading("Loading...");
   //   dispatch(setLoading(true));
@@ -379,6 +381,7 @@ export const markLectureAsComplete = async (data, token) => {
 export const createRating = async (data, token) => {
   const toastId = toast.loading("Loading...");
   let success = false;
+
   try {
     const response = await apiConnector("POST", CREATE_RATING_API, data, {
       Authorization: `Bearer ${token}`,
@@ -389,11 +392,13 @@ export const createRating = async (data, token) => {
     }
     toast.success("Rating Created");
     success = true;
-  } catch (error) {
+  } 
+  catch (error) {
     success = false;
     console.log("CREATE RATING API ERROR............", error);
     toast.error(error.message);
   }
+  
   toast.dismiss(toastId);
   return success;
 };

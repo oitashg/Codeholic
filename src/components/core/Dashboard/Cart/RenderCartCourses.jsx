@@ -9,11 +9,13 @@ const RenderCartCourses = () => {
 
     //fetch the cart data from cartslice on which we apply map function
     const { cart } = useSelector((state) => state.cart)
+    console.log("Cart -> ", cart)
+    console.log("Cart[0] -> ", cart[0])
     const dispatch = useDispatch()
 
   return (
     <div className="flex flex-1 flex-col">
-      {cart.map((course, indx) => (
+      {cart[0].map((course, indx) => (
         <div
           key={course._id}
           className={`flex w-full flex-wrap items-start justify-between gap-6 ${

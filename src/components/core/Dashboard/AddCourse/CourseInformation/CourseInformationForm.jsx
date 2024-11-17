@@ -171,8 +171,12 @@ const CourseInformationForm = () => {
           id="courseTitle"
           placeholder="Enter Course Title"
           {...register("courseTitle", { required: true })}
-          className="form-style w-full"
+          style={{
+            boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+          }}
+          className='w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5'
         />
+
         {errors.courseTitle && (
           <span className="ml-2 text-xs tracking-wide text-pink-200">
             Course title is required
@@ -189,7 +193,10 @@ const CourseInformationForm = () => {
           id="courseShortDesc"
           placeholder="Enter Description"
           {...register("courseShortDesc", { required: true })}
-          className="form-style resize-x-none min-h-[130px] w-full"
+          style={{
+            boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+          }}
+          className='w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5'
         />
         {errors.courseShortDesc && (
           <span className="ml-2 text-xs tracking-wide text-pink-200">
@@ -214,7 +221,10 @@ const CourseInformationForm = () => {
                 value: /^(0|[1-9]\d*)(\.\d+)?$/,
               },
             })}
-            className="form-style w-full !pl-12"
+            style={{
+              boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+            }}
+            className='w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5'
           />
           <HiOutlineCurrencyRupee className="absolute left-3 top-1/2 inline-block -translate-y-1/2 text-2xl text-richblack-400" />
         </div>
@@ -234,7 +244,10 @@ const CourseInformationForm = () => {
           {...register("courseCategory", { required: true })}
           defaultValue=""
           id="courseCategory"
-          className="form-style w-full"
+          style={{
+            boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+          }}
+          className='w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5'
         >
           <option value="" disabled>
             Choose a Category
@@ -283,7 +296,10 @@ const CourseInformationForm = () => {
           id="courseBenefits"
           placeholder="Enter benefits of the course"
           {...register("courseBenefits", { required: true })}
-          className="form-style resize-x-none min-h-[130px] w-full"
+          style={{
+            boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+          }}
+          className='w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5'
         />
         {errors.courseBenefits && (
           <span className="ml-2 text-xs tracking-wide text-pink-200">

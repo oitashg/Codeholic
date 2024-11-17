@@ -262,7 +262,19 @@ exports.getCourseDetails = async(req, res) => {
                                             path: "additionalDetails",
                                         }
                                     })
+                                    .populate("courseName")
+                                    .populate("courseDescription")
                                     .populate("category")
+                                    .populate("createdAt")
+                                    .populate("whatYouWillLearn")
+                                    .populate("thumbnail")
+                                    .populate("price")
+                                    .populate({
+                                      path: "studentsEnrolled",
+                                      populate: {
+                                        path: "additionalDetails"
+                                      }
+                                    })
                                     .populate("ratingAndReviews")
                                     .populate({
                                         path: "courseContent",

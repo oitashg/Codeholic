@@ -121,7 +121,10 @@ const CourseBuilderForm = () => {
             disabled={loading}
             placeholder="Add a section to build your course"
             {...register("sectionName", { required: true })}
-            className="form-style w-full"
+            style={{
+              boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+            }}
+            className='w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5'
           />
           {errors.sectionName && (
             <span className="ml-2 text-xs tracking-wide text-pink-200">

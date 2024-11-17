@@ -177,7 +177,10 @@ const SubSectionModal = ({
               id="lectureTitle"
               placeholder="Enter Lecture Title"
               {...register("lectureTitle", { required: true })}
-              className="form-style w-full"
+              style={{
+                boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+              }}
+              className='w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5'
             />
             {errors.lectureTitle && (
               <span className="ml-2 text-xs tracking-wide text-pink-200">
@@ -196,7 +199,10 @@ const SubSectionModal = ({
               id="lectureDesc"
               placeholder="Enter Lecture Description"
               {...register("lectureDesc", { required: true })}
-              className="form-style resize-x-none min-h-[130px] w-full"
+              style={{
+                boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+              }}
+              className='w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5'
             />
             {errors.lectureDesc && (
               <span className="ml-2 text-xs tracking-wide text-pink-200">
