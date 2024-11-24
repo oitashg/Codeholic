@@ -425,8 +425,10 @@ exports.getInstructorCourses = async (req, res) => {
 // Delete the Course
 exports.deleteCourse = async (req, res) => {
     try {
-      const { categoryId, courseId } = req.body
-  
+      const {courseId } = req.body
+
+      console.log("Course Id -> ", courseId)
+
       // Find the course
       const course = await Course.findById(courseId)
       console.log("Course -> ", course)
@@ -442,7 +444,20 @@ exports.deleteCourse = async (req, res) => {
           $pull: { courses: courseId },
         })
       }
-  
+      
+      //delete the entry of this course from the course list of instructor
+      const courseInstructorId = course.instructor
+      const updatedCourseList = await User.findByIdAndUpdate(courseInstructorId, 
+                                                            {
+                                                              $pull: {
+                                                                courses: courseId
+                                                              }
+                                                            },
+                                                            {new: true})
+                                                            .populate("courses")
+                                                            .exec()
+      console.log("Updated courses list -> ", updatedCourseList)
+
       // Delete sections and sub-sections
       const courseSections = course.courseContent
       console.log("Course Section -> ", courseSections)
@@ -464,14 +479,12 @@ exports.deleteCourse = async (req, res) => {
         // Delete the section
         await Section.findByIdAndDelete(sectionId)
       }
-  
-      // Delete the course
-      await Course.findByIdAndDelete(courseId)
       
       //TODO: Update the category schema..i.e..
       //we have to delete the course from the courses array of category model
+      const categoryId = course.category
       const updatedCategory = await Category.findByIdAndUpdate(
-                                              {_id: categoryId},
+                                              categoryId,
                                               {
                                                 $pull: {
                                                   courses: courseId,
@@ -480,6 +493,12 @@ exports.deleteCourse = async (req, res) => {
                                               {new: true})
                                               .populate("courses")
                                               .exec()
+      
+      console.log("Category Id -> ", categoryId)
+      console.log("Upated category details -> ", updatedCategory)
+
+      // Delete the course
+      await Course.findByIdAndDelete(courseId)
 
       return res.status(200).json({
         success: true,

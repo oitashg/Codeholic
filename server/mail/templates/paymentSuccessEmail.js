@@ -67,8 +67,7 @@ exports.paymentSuccessEmail = (name, amount, orderId, paymentId) => {
       
       <body>
           <div class="container">
-              <a href="https://studynotion-edtech-project.vercel.app"><img class="logo" src="https://i.ibb.co/27WM9fg/codeholic-logo.png"
-                      alt="CodeHolic Logo"></a>
+              <a><img class="logo" src="https://i.ibb.co/27WM9fg/codeholic-logo.png" alt="CodeHolic Logo"></a>
               <div class="message">Course Payment Confirmation</div>
               <div class="body">
                   <p>Dear ${name},</p>
@@ -77,7 +76,7 @@ exports.paymentSuccessEmail = (name, amount, orderId, paymentId) => {
                   <p>Your Order ID is <b>${orderId}</b></p>
               </div>
               <div class="support">If you have any questions or need assistance, please feel free to reach out to us at <a
-                      href="mailto:info@codeholic.com">info@codeholic.com</a>. We are here to help!</div>
+                    href="mailto:info@codeholic.com">info@codeholic.com</a>. We are here to help!</div>
           </div>
       </body>
       
