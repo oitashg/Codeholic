@@ -3,7 +3,7 @@ import { studentEndpoints } from "../apis";
 import { apiConnector } from "../apiconnector";
 import { setPaymentLoading } from "../../slices/courseSlice";
 import { resetCart } from "../../slices/cartSlice";
-import rzpLogo from '../../assets/Logo/rzp_logo.png'
+import rzpLogo from '../../assets/Logo/codeholic-logo.png'
 
 
 const {COURSE_PAYMENT_API, COURSE_VERIFY_API, SEND_PAYMENT_SUCCESS_EMAIL_API} = studentEndpoints;

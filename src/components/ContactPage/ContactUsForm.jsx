@@ -62,7 +62,10 @@ const ContactUsForm = () => {
             name="firstname"
             id="firstname"
             placeholder="Enter first name"
-            className="form-style"
+            style={{
+              boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+            }}
+            className='w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5'
             {...register("firstname", { required: true })}
           />
           {errors.firstname && (
@@ -71,6 +74,7 @@ const ContactUsForm = () => {
             </span>
           )}
         </div>
+
         <div className="flex flex-col gap-2 lg:w-[48%]">
           <label htmlFor="lastname" className="lable-style">
             Last Name
@@ -80,7 +84,10 @@ const ContactUsForm = () => {
             name="lastname"
             id="lastname"
             placeholder="Enter last name"
-            className="form-style"
+            style={{
+              boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+            }}
+            className='w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5'
             {...register("lastname")}
           />
         </div>
@@ -95,7 +102,10 @@ const ContactUsForm = () => {
           name="email"
           id="email"
           placeholder="Enter email address"
-          className="form-style"
+          style={{
+            boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+          }}
+          className='w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5'
           {...register("email", { required: true })}
         />
         {errors.email && (
@@ -117,7 +127,10 @@ const ContactUsForm = () => {
               name="firstname"
               id="firstname"
               placeholder="Enter first name"
-              className="form-style"
+              style={{
+                boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+              }}
+              className='w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5'
               {...register("countrycode", { required: true })}
             >
               {CountryCode.map((ele, i) => {
@@ -129,13 +142,17 @@ const ContactUsForm = () => {
               })}
             </select>
           </div>
+
           <div className="flex w-[calc(100%-90px)] flex-col gap-2">
             <input
               type="number"
               name="phonenumber"
               id="phonenumber"
               placeholder="12345 67890"
-              className="form-style"
+              style={{
+                    boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+              }}
+              className='w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5'
               {...register("phoneNo", {
                 required: {
                   value: true,
@@ -164,7 +181,10 @@ const ContactUsForm = () => {
           cols="30"
           rows="7"
           placeholder="Enter your message here"
-          className="form-style"
+          style={{
+            boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+          }}
+          className='w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5'
           {...register("message", { required: true })}
         />
         {errors.message && (
