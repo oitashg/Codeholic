@@ -55,7 +55,7 @@ const Instructor = () => {
           <div className="spinner"></div>
         ) : courses.length > 0 ? (
           <div>
-            <div className="my-4 flex h-[450px] space-x-4">
+            <div className="my-4 flex h-[540px] space-x-4">
               {/* Render chart / graph */}
               {totalAmount > 0 || totalStudents > 0 ? (
                 <InstructorChart courses={instructorData} />
@@ -93,6 +93,7 @@ const Instructor = () => {
                 </div>
               </div>
             </div>
+            
             <div className="rounded-md bg-richblack-800 p-6">
 
               {/* Render 3 courses */}
