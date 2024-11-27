@@ -15,6 +15,7 @@ exports.createSubSection = async (req, res) => {
     console.log("title -> ", title);
     console.log("sectionId -> ", sectionId);
     console.log("description -> ", description);
+    console.log("timeDuration -> ", timeDuration);
 
     //validation
     if (!sectionId || !title || !description || !video) {
@@ -40,6 +41,8 @@ exports.createSubSection = async (req, res) => {
       //after uploading video to cloudinary we get a secure_url whuch is inserted in videoUrl of subsection schema
       videoUrl: uploadDetails.secure_url,
     });
+
+    console.log("Video details -> ", subSectionDetails)
 
     console.log("Oitash - 3")
     //update the subsection array in section schema by creating entry with subsectionId

@@ -8,6 +8,8 @@ import Course_Card from './Course_Card'
 import { FreeMode, Pagination } from 'swiper/modules'
 
 const CourseSlider = ({Courses}) => {
+  console.log("Courses in catalog page -> ", Courses)
+  
   return (
     <>
       {Courses?.length ? (

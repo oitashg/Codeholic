@@ -30,6 +30,8 @@ const EnrolledCourses = () => {
         getEnrolledCourses();
     }, [])
 
+    console.log("Enrolled courses -> ", enrolledCourses)
+
   return (
     <>
       <div className="text-3xl text-richblack-50">Enrolled Courses</div>
@@ -80,7 +82,9 @@ const EnrolledCourses = () => {
                   </p>
                 </div>
               </div>
+
               <div className="w-1/4 px-2 py-3">{course?.totalDuration}</div>
+              
               <div className="flex w-1/5 flex-col gap-2 px-2 py-3">
                 <p>Progress: {course.progressPercentage || 0}%</p>
                 <ProgressBar

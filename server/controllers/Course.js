@@ -362,12 +362,12 @@ exports.getFullCourseDetails = async (req, res) => {
         })
       }
   
-      // if (courseDetails.status === "Draft") {
-      //   return res.status(403).json({
-      //     success: false,
-      //     message: `Accessing a draft course is forbidden`,
-      //   });
-      // }
+      if (courseDetails.status === "Draft") {
+        return res.status(403).json({
+          success: false,
+          message: `Accessing a draft course is forbidden`,
+        });
+      }
   
       let totalDurationInSeconds = 0
       courseDetails.courseContent.forEach((content) => {
@@ -406,8 +406,17 @@ exports.getInstructorCourses = async (req, res) => {
       // Find all courses belonging to the instructor
       const instructorCourses = await Course.find({
         instructor: instructorId,
-      }).sort({ createdAt: -1 })
-  
+      })
+      .populate({
+        path: "courseContent",
+        populate: {
+          path: "subSection"
+        }
+      })
+      .sort({ createdAt: -1 })
+      
+      console.log("Instructor courses -> ", instructorCourses)
+
       // Return the instructor's courses
       res.status(200).json({
         success: true,
