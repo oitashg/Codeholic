@@ -52,12 +52,13 @@ const CourseDetails = () => {
     const [avgReviewCount, setAvgReviewCount] = useState(0)
 
     useEffect(() => {
-        const count = GetAvgRating(response?.data?.courseDetails.ratingAndReviews)
+        const count = GetAvgRating(response?.data?.courseDetails[0].ratingAndReviews)
         setAvgReviewCount(count)
     }, [response])
-    // console.log("avgReviewCount: ", avgReviewCount)
 
-    // // Collapse all
+    console.log("avgReviewCount: ", avgReviewCount)
+
+    // Collapse all
     // const [collapse, setCollapse] = useState("")
     const [isActive, setIsActive] = useState(Array(0))
     const handleActive = (id) => {

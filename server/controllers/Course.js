@@ -4,6 +4,7 @@ const User = require("../models/User")
 const Section = require("../models/Section")
 const SubSection = require("../models/SubSection")
 const CourseProgress = require("../models/CourseProgress")
+const RatingAndReview = require("../models/RatingAndReview")
 const {uploadImageToCloudinary} = require("../utils/imageUploader")
 const {convertSecondsToDuration} = require("../utils/secToDuration")
 
@@ -425,8 +426,7 @@ exports.getInstructorCourses = async (req, res) => {
 // Delete the Course
 exports.deleteCourse = async (req, res) => {
     try {
-      const {courseId } = req.body
-
+      const {courseId} = req.body
       console.log("Course Id -> ", courseId)
 
       // Find the course
@@ -496,6 +496,53 @@ exports.deleteCourse = async (req, res) => {
       
       console.log("Category Id -> ", categoryId)
       console.log("Upated category details -> ", updatedCategory)
+      
+      //Delete the ratingReview entry also while deleting the course
+      const ratingReviewId = course.ratingAndReviews
+      console.log("Rating Reviw Id -> ", ratingReviewId)
+      await RatingAndReview.findByIdAndDelete(ratingReviewId)
+
+      //Delete the courseProgress of all students enrolled in this course while deleting the course
+      const enrolledStudentDetails = course.studentsEnrolled
+      console.log("Enrolled Students detail -> ", enrolledStudentDetails)
+      
+      for(const studentId of enrolledStudentDetails){
+        //string details of each user
+        const userDetails = await User.findById(studentId)
+                                                  .populate("courseProgress")
+                                                  .exec()
+        
+        //extracting courseProgress details of each user
+        const courseProgressDetails = userDetails.courseProgress
+        console.log("Course Progress Details -> ", courseProgressDetails) 
+
+        //storing the particular courseProgressId of the course of this student
+        let courseProgressId
+        for(const element of courseProgressDetails){
+          if(element.courseID == courseId){
+            courseProgressId = element._id
+            break
+          }
+        }
+        
+        console.log("CourseProgress Id -> ", courseProgressId)
+        
+        const updatedCourseProgress = await User.findByIdAndUpdate(
+                                                  studentId, 
+                                                  {
+                                                    $pull: {
+                                                      courseProgress: courseProgressId
+                                                    }
+                                                  },
+                                                  {new: true})
+                                                  .populate("courseProgress")
+                                                  .exec()
+        
+        console.log("Updated courseProgress -> ", updatedCourseProgress)
+
+        //Delete the courseprogress of that student for this course
+        await CourseProgress.findByIdAndDelete(courseProgressId)
+      }
 
       // Delete the course
       await Course.findByIdAndDelete(courseId)
