@@ -35,7 +35,7 @@ const {
           throw new Error(response.data.message)
         }
         toast.success("Display Picture Updated Successfully")
-        dispatch(setUser(response.data.data))
+        dispatch(setUser(response.data.updatedProfile))
       } 
       catch (error) {
         console.log("UPDATE_DISPLAY_PICTURE_API API ERROR............", error)
@@ -48,6 +48,8 @@ const {
   export function updateProfile(token, formData) {
     return async (dispatch) => {
       const toastId = toast.loading("Loading...")
+
+      console.log("Formdata in settings API before -> ", formData)
       
       try {
         const response = await apiConnector("PUT", UPDATE_PROFILE_API, formData, {
@@ -59,12 +61,14 @@ const {
         if (!response.data.success) {
           throw new Error(response.data.message)
         }
-        const userImage = response.data.profileDetails?.image
-          ? response.data.profileDetails?.image
-          : `https://api.dicebear.com/5.x/initials/svg?seed=${formData?.firstName} ${formData?.lastName}`
+        const userImage = response.data.finalUserDetails?.image
+          ? response.data.finalUserDetails?.image
+          : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.finalUserDetails?.firstName}${response.data.finalUserDetails?.lastName}`
         dispatch(
-          setUser({ ...response.data.profileDetails, image: userImage })
+          setUser({...response.data.finalUserDetails, image: userImage})
         )
+        // localStorage.setItem("user", JSON.stringify(response.data.userDetails))
+
         console.log("User image ->", userImage)
         toast.success("Profile Updated Successfully")
       } 

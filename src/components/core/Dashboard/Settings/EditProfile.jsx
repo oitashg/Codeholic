@@ -24,6 +24,7 @@ const EditProfile = () => {
         console.log("Form Data while submitting the form-> ", data)
         try {
           dispatch(updateProfile(token, data))
+          console.log("Form Data after submitting the form-> ", data)
         } 
         catch (error) {
           console.log("ERROR MESSAGE - ", error.message)

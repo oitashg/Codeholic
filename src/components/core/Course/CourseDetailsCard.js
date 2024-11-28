@@ -21,6 +21,20 @@ const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
         _id: courseId,
     } = course[0]
 
+    console.log("Course -> ", course)
+    console.log("User -> ", user)
+
+    let isEnrolled = false
+
+    for(const id of course[0]?.studentsEnrolled){
+      if(id._id == user?._id){
+        isEnrolled = true
+        break
+      }
+    }
+
+    console.log("Isenrolled -> ", isEnrolled)
+
     const handleShare = () => {
         copy(window.location.href)
         toast.success("Link copied to clipboard")
@@ -45,7 +59,7 @@ const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
         })
     }
 
-    // console.log("Student already enrolled ", course?.studentsEnrolled, user?._id)
+    console.log("Student already enrolled ", course[0]?.studentsEnrolled?.includes(user?._id))
 
   return (
     <>
@@ -55,7 +69,7 @@ const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
         {/* Course Image */}
         <img
           src={ThumbnailImage}
-          alt={course?.courseName}
+          alt={course[0]?.courseName}
           className="max-h-[300px] min-h-[180px] w-[400px] overflow-hidden rounded-2xl object-cover md:max-w-full"
         />
 
@@ -67,20 +81,21 @@ const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
             <button
               className="yellowButton"
               onClick={
-                user && course?.studentsEnrolled?.includes(user?._id)
+                (user && isEnrolled)
                   ? () => navigate("/dashboard/enrolled-courses")
                   : handleBuyCourse
               }
             >
-              {user && course?.studentsEnrolled?.includes(user?._id)
+              {(user && isEnrolled)
                 ? "Go To Course"
-                : "Buy Now"}
+                : "Buy Now"
+              }
             </button>
-            {(!user || !course?.studentsEnrolled?.includes(user?._id)) && (
+            {/* {(!user || !course?.studentsEnrolled?.includes(user?._id)) && (
               <button onClick={handleAddToCart} className="blackButton">
                 Add to Cart
               </button>
-            )}
+            )} */}
           </div>
           <div>
             <p className="pb-3 pt-6 text-center text-sm text-richblack-25">
@@ -93,7 +108,7 @@ const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
               This Course Includes :
             </p>
             <div className="flex flex-col gap-3 text-sm text-caribbeangreen-100">
-              {course?.instructions?.map((item, i) => {
+              {course[0]?.instructions?.map((item, i) => {
                 return (
                   <p className={`flex gap-2`} key={i}>
                     <BsFillCaretRightFill />

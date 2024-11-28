@@ -36,7 +36,7 @@ const RenderCartCourses = () => {
                 {course?.category?.name}
               </p>
               <div className="flex items-center gap-2">
-                <span className="text-yellow-5">4.5</span>
+                <span className="text-yellow-5">{course?.ratingAndReviews}</span>
                 <ReactStars
                   count={5}
                   value={course?.ratingAndReviews?.length}

@@ -11,7 +11,7 @@ exports.updateProfile = async(req, res) => {
 
     try{
         //get the data
-        const {dateOfBirth = "", about = "", contactNumber, gender} = req.body
+        const {firstName, lastName, dateOfBirth = "", about = "", contactNumber, gender} = req.body
 
         //get the userID
         const id = req.user.id
@@ -39,17 +39,26 @@ exports.updateProfile = async(req, res) => {
         //Another way to update the values in database..i.e..by save
         //When object already present(here profileDetails) then use save
         //First one was by create...here no object was created
+        userDetails.firstName = firstName
+        userDetails.lastName = lastName
         profileDetails.dateOfBirth = dateOfBirth
         profileDetails.about = about
         profileDetails.gender = gender
         profileDetails.contactNumber = contactNumber
+        await userDetails.save()
         await profileDetails.save()
+
+        const finalUserDetails = await User.findByIdAndUpdate(
+                                            id,
+                                            {new: true})
+                                            .populate("additionalDetails")
+                                            .exec()
 
         //return response
         return res.status(200).json({
             success: true,
             message: "Profile updated successfully",
-            profileDetails
+            finalUserDetails
         })
     }
     catch(error){
@@ -140,14 +149,16 @@ exports.updateDisplayPicture = async (req, res) => {
       )
       console.log(image)
       const updatedProfile = await User.findByIdAndUpdate(
-        { _id: userId },
+        userId,
         { image: image.secure_url },
-        { new: true }
-      )
+        { new: true })
+        .populate("additionalDetails")
+        .exec()
+    
       res.send({
         success: true,
         message: `Image Updated successfully`,
-        data: updatedProfile,
+        updatedProfile,
       })
     } catch (error) {
       return res.status(500).json({

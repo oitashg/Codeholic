@@ -33,7 +33,7 @@ const CourseDetails = () => {
     const [confirmationModal, setConfirmationModal] = useState(null)
 
     useEffect(() => {
-        // Calling fetchCourseDetails fucntion to fetch the details
+        // Calling fetchCourseDetails function to fetch the details
         ;(async () => {
         try {
           const res = await fetchCourseDetails(courseId)
@@ -103,6 +103,7 @@ const CourseDetails = () => {
         _id: course_id,
         courseContent,
         ratingAndReviews,
+        instructions,
         instructor,
         studentsEnrolled,
         createdAt,

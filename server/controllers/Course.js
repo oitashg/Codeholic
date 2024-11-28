@@ -254,7 +254,7 @@ exports.getCourseDetails = async(req, res) => {
 
         //find course details(we don't want object ID..so populate everything)
         const courseDetails = await Course.find(
-                                    //searcing parameter
+                                    //searching parameter
                                     {_id: courseId},
                                     {new: true})
                                     .populate({
@@ -269,12 +269,11 @@ exports.getCourseDetails = async(req, res) => {
                                     .populate("createdAt")
                                     .populate("whatYouWillLearn")
                                     .populate("thumbnail")
+                                    .populate("instructions")
                                     .populate("price")
                                     .populate({
                                       path: "studentsEnrolled",
-                                      populate: {
-                                        path: "additionalDetails"
-                                      }
+                                      select: "_id"
                                     })
                                     .populate("ratingAndReviews")
                                     .populate({
@@ -362,12 +361,12 @@ exports.getFullCourseDetails = async (req, res) => {
         })
       }
   
-      if (courseDetails.status === "Draft") {
-        return res.status(403).json({
-          success: false,
-          message: `Accessing a draft course is forbidden`,
-        });
-      }
+      // if (courseDetails.status === "Draft") {
+      //   return res.status(403).json({
+      //     success: false,
+      //     message: `Accessing a draft course is forbidden`,
+      //   });
+      // }
   
       let totalDurationInSeconds = 0
       courseDetails.courseContent.forEach((content) => {

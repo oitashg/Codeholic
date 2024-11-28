@@ -99,9 +99,13 @@ exports.categoryPageDetails = async(req, res) => {
                                             {
                                                 //we are finding those courses whose id is not equal($ne) to current category id
                                                 _id: {$ne: categoryId}
+                                            },
+                                            {new: true})
+                                            .populate({
+                                                path: "courses",
+                                                populate: "ratingAndReviews"
                                             })
-                                            // .populate("courses")
-                                            // .exec()
+                                            .exec()
 
         let differentCategory = await Category.findOne(
             differentCategories[getRandomInt(differentCategories.length)]
@@ -110,6 +114,9 @@ exports.categoryPageDetails = async(req, res) => {
         .populate({
             path: "courses",
             match: { status: "Published" },
+            populate: {
+                path: "ratingAndReviews"
+            }
         })
         .exec()
 
@@ -122,6 +129,7 @@ exports.categoryPageDetails = async(req, res) => {
             match: { status: "Published" },
             populate: {
                 path: "instructor",
+                path: "ratingAndReviews"
             },
         })
         .exec()
@@ -140,6 +148,7 @@ exports.categoryPageDetails = async(req, res) => {
             data: {
                 selectedCategory,
                 differentCategories,
+                differentCategory,
                 mostSellingCourses,
             }
         })

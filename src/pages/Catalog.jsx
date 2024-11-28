@@ -12,7 +12,7 @@ import CourseSlider from '../components/core/Catalog/CourseSlider'
 const Catalog = () => {
 
     const { loading } = useSelector((state) => state.profile)
-    const { catalogName } = useParams()
+    const { catalogName } = useParams() //extract from the link
     const [active, setActive] = useState(1)
     const [catalogPageData, setCatalogPageData] = useState(null);
     const [categoryId, setCategoryId] = useState("");
@@ -119,7 +119,7 @@ const Catalog = () => {
             </div>
             <div className="py-8">
               <CourseSlider
-                Courses={catalogPageData?.data?.differentCategory?.courses}
+                Courses={catalogPageData?.data?.differentCategory.courses}
               />
             </div>
           </div>

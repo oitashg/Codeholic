@@ -123,7 +123,7 @@ const Navbar = () => {
             <div className='hidden md:flex gap-x-4 items-center'>
 
                 {/* Cart Symbol */}
-                {
+                {/* {
                     user && user?.accountType !== "Instructor" && (
                         <Link to="/dashboard/cart" className='relative'>
                             <AiOutlineShoppingCart className='text-2xl text-richblack-100'/>
@@ -136,7 +136,7 @@ const Navbar = () => {
                             }
                         </Link>
                     )
-                }
+                } */}
 
                 {/* Log in button */}
                 {/* token is null means user is not logged in */}
