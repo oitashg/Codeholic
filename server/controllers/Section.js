@@ -139,6 +139,13 @@ exports.deleteSection = async(req, res) => {
                                             }
                                         },
                                         {new: true})
+                                        .populate({
+                                            path: "courseContent",
+                                            populate: {
+                                                path: "subSection"
+                                            }
+                                        })
+                                        .exec()
         
         //return response
         return res.status(200).json({

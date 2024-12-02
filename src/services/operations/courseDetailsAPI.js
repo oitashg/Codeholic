@@ -226,13 +226,15 @@ export const updateSubSection = async (data, token) => {
 };
 
 // delete a section
-export const deleteSection = async (data, token) => {
+export const deleteSection = async (data) => {
   let result = null;
   const toastId = toast.loading("Loading...");
 
+  console.log("data -> ", data)
+
   try {
     const response = await apiConnector("POST", DELETE_SECTION_API, data, {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${data.token}`,
     });
     console.log("DELETE SECTION API RESPONSE............", response);
     if (!response?.data?.success) {
@@ -240,6 +242,7 @@ export const deleteSection = async (data, token) => {
     }
     toast.success("Course Section Deleted");
     result = response?.data?.data;
+    console.log("Response -> ", response)
     console.log("Backend result -> ", result)
   } 
   catch (error) {

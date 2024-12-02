@@ -58,7 +58,7 @@ const NestedView = ({handleChangeEditSectionName}) => {
     setConfirmationModal(null);
   };
 
-  // console.log("Printing course -> ", course)
+  console.log("Printing course -> ", course)
 
   return (
     <>
@@ -76,6 +76,7 @@ const NestedView = ({handleChangeEditSectionName}) => {
 
               <div className="flex items-center gap-x-3">
                 <RxDropdownMenu className="text-2xl text-richblack-50" />
+                
                 <p className="font-semibold text-richblack-50">
                   {section.sectionName}
                 </p>
