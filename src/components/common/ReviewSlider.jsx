@@ -37,8 +37,8 @@ const ReviewSlider = () => {
     <div className="text-white">
       <div className="my-[50px] h-[184px] max-w-maxContentTab lg:max-w-maxContent">
         <Swiper
-          slidesPerView={2}
-          spaceBetween={200}
+          slidesPerView={3}
+          spaceBetween={100}
           loop={true}
           freeMode={true}
           autoplay={{

@@ -3,7 +3,7 @@ import { IoIosArrowBack } from 'react-icons/io'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import IconBtn from '../../common/IconBtn'
-import { BsChevronDown } from 'react-icons/bs'
+import { BsChevronDown, BsChevronUp } from 'react-icons/bs'
 
 const VideoDetailsSidebar = ({setReviewModal}) => {
 
