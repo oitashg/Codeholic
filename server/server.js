@@ -25,7 +25,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(
     cors({
-        origin: "https://codeholic.vercel.app/",
+        origin: "https://codeholic.vercel.app",
         credentials: true,
     })
 )
