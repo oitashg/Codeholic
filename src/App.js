@@ -27,6 +27,7 @@ import CourseDetails from './pages/CourseDetails';
 import VideoDetails from './components/core/ViewCourse/VideoDetails';
 import ViewCourse from './pages/ViewCourse';
 import Instructor from './components/core/Dashboard/InstructorDashboard/Instructor';
+import {Analytics} from "@vercel/analytics/react"
 
 function App() {
 
@@ -160,6 +161,7 @@ function App() {
         {/* If unknown route then show error page */}
         <Route path='*' element={<Error/>}/>
       </Routes>
+      <Analytics/>
     </div>
   );
 }
