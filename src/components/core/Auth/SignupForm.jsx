@@ -245,20 +245,6 @@ const SignupForm = () => {
             >
                 Create Account
             </button>
-
-            {/* --------------OR-------------- */}
-            <div className="flex items-center">
-                <div className='w-5/12 border-[1px] border-pure-greys-700'></div>
-                <div className='w-2/12 text-white px-5'>OR</div>
-                <div className='w-5/12 border-[1px] border-pure-greys-700'></div>
-            </div>
-
-            {/* Sign in with Google button */}
-            <button className='flex items-center gap-2 justify-center py-[8px] px-[12px] border border-pure-greys-700 rounded-[8px]'>
-                <FcGoogle/>
-                <p className='text-richblack-200'>Sign in with Google</p>
-            </button>
-
         </form>
         
     </div>
