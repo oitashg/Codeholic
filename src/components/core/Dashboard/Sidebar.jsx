@@ -74,7 +74,7 @@ const Sidebar = () => {
             </div>
 
             {/* Add the confirmationModal at the end */}
-            {/* if null, then it will not render the modal otheriwise it will be visible */}
+            {/* if null, then it will not render the modal otherwise it will be visible */}
             {confirmationalModal && <ConfirmationModal modalData={confirmationalModal}/>}
             
         </div>

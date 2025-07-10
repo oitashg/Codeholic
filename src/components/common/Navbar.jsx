@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, matchPath } from 'react-router-dom'
 import logo from "../../assets/Logo/new_logo.png"
 import { NavbarLinks } from '../../data/navbar-links'
 import { useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { AiOutlineShoppingCart } from 'react-icons/ai'
 import ProfileDropDown from '../core/Auth/ProfileDropDown'
 import { apiConnector } from '../../services/apiconnector'
 import { categories } from '../../services/apis'
@@ -17,8 +16,8 @@ const Navbar = () => {
     //auth, profil, cart are the keys that are stored in rootReducer
     //inside those keys, reducers are present
     const {token} = useSelector((state) => state.auth)
-    const {user} = useSelector((state) => state.profile)
-    const {totalItems} = useSelector((state) => state.cart)
+    // const {user} = useSelector((state) => state.profile)
+    // const {totalItems} = useSelector((state) => state.cart)
 
     //calling apis using useEffect
     const [subLinks, setSubLinks] = useState([])

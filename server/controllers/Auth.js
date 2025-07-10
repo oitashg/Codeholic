@@ -41,7 +41,7 @@ exports.sendOTP = async(req, res) => {
         //But this is not a good code..so try to optimise it and find a package which guarantee unique otp
         while(result){
             otp = otpGenerator(6, {
-                upperCaseAlphabets: fasle,
+                upperCaseAlphabets: false,
                 lowerCaseAlphabets: false,
                 specialChars: false,
             })

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
@@ -207,9 +207,11 @@ const VideoDetails = () => {
                 disabled={loading}
                 onClick={() => {
                   if (playerRef?.current) {
-                    // set the current time of the video to 0
+                    // set the current time of the video to 0 and play automatically
                     playerRef?.current?.seek(0)
                     setVideoEnded(false)
+                    // kick off playback again
+                    playerRef.current.actions.play()
                   }
                 }}
                 text="Rewatch"
