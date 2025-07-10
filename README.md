@@ -7,7 +7,7 @@ Instructors can add courses under a particular category and upload video lecture
 
 Courses will be available in the Catalog section under their respective catagories.
 
-Students can go to the Catalog section and add any course to cart and buy it. After successful payment, the course will be available in the enrolled courses section of the student dashboard. From there student can open the video lectures and watch the videos and progress of videos will also be saved. Besides, enrolled students can also give rating and reviews to that course.
+Students can go to the Catalog section and buy any course of a specific category. After successful payment, the course will be available in the enrolled courses section of the student dashboard. From there student can open the video lectures and watch the videos and progress of videos will also be saved. Besides, enrolled students can also give rating and reviews to that course.
 
 Payment will be done through Razorpay gateway where multiple ways of payment are present.
 
